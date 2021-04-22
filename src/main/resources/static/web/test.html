@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>失去焦点事件</title>
+</head>
+<body>
+<h1 style="color: fuchsia">input 输入框失去焦点时改变其span</h1>
+<input type="text" name="" id="username"><span id="username_span"></span>
+<input type="text" name="" id="pwd"><span id="pwd_span"></span>
+<!--本质：<input type="text" name="" id="username" style="border-color: red;">-->
+<script src="../bootstrap3/jquery-1.9.1.min.js"></script>
+<script>
+    // $('#username').focus(function(){
+    //     $(this).css('border-color','red');
+    // });
+
+$(document).ready(function () {
+    $("#username").focus(function () {
+        $("#username_span").html("");
+    });
+
+    let pattern = /^[0-9a-zA-Z_$]{3,10}$/;
+
+    $("#username").blur(function () {
+
+        let username = $("#username").val();
+        let flag = pattern.test(username);
+        alert(username+","+flag);
+        if (!flag){
+            $("#username_span").html("用户名格式错误，用户名可以是由3-10位的数字、字母、下划线，$符号组成的！").css("color","red");
+            return;
+        }
+    });
+    $("#pwd").focus(function () {
+        $("#username_span").html("");
+    });
+});
+
+</script>
+</body>
+</html>

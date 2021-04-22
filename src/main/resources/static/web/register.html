@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<!--edge浏览器H5兼容设置-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!--360浏览器H5兼容设置-->
+		<meta name="renderer" content="webkit" />
+		<title>学子商城</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--导入核心文件-->
+		<script src="../bootstrap3/js/holder.js"></script>
+		<link href="../bootstrap3/css/bootstrap.css" rel="stylesheet" type="text/css">
+		<script src="../bootstrap3/jquery-1.9.1.min.js"></script>
+		<script src="../bootstrap3/js/bootstrap.js"></script>
+		<!-- 字体图标 -->
+		<link rel="stylesheet" href="../bootstrap3/font-awesome-4.7.0/css/font-awesome.css" />
+		<link rel="stylesheet" type="text/css" href="../css/top.css" />
+		<link rel="stylesheet" type="text/css" href="../css/index.css" />
+		<link rel="stylesheet" type="text/css" href="../css/layout.css" />
+		<link rel="stylesheet" type="text/css" href="../css/reg.css" />
+		<link rel="stylesheet" type="text/css" href="../css/footer.css" />
+	</head>
+	<body>
+		<!--头部-->
+		<header class="header">
+			<img src="../images/index/stumalllogo.png" alt="" />
+			<span class="pull-right"><small>欢迎访问</small><b>学子商城</b></span>
+		</header>
+		<!--主体-->
+		<div class="container mycontent text-left">
+			<!--透明层 -->
+			<div class="regDiv">
+				<p>新用户注册</p>
+				<!--表单开始-->
+				<form id="form-data"  class="form-horizontal" role="form">
+					<!--用户名-->
+					<div class="form-group">
+						<label  class="col-md-3 control-label">名字：</label>
+						<div class="col-md-8">
+							<input id="username" name="username" type="text" class="form-control"  placeholder="请输入用户名"><span id="username_span"></span>
+						</div>
+					</div>
+					<!--密码-->
+					<div class="form-group">
+						<label class="col-md-3 control-label"> 密码：</label>
+						<div class="col-md-8">
+							<input id="password" name="password" type="text" class="form-control"  placeholder="请输入密码"><span id="password_span"></span>
+						</div>
+					</div>
+					<!--确认密码-->
+					<div class="form-group">
+						<label  class="col-md-3 control-label"> 确认密码：</label>
+						<div class="col-md-8">
+							<input id="confirmPwd" type="text" class="form-control"  placeholder="请再次输入密码"><span if="confirmPwd_psan"></span>
+						</div>
+					</div>
+					<!--电话-->
+					<div class="form-group">
+						<label  class="col-md-3 control-label"> 电话：</label>
+						<div class="col-md-8">
+							<input id="phone" name="phone" type="text" class="form-control"  placeholder="请输入电话"><span id="phone_span"></span>
+						</div>
+					</div>
+					<!--邮箱-->
+					<div class="form-group">
+						<label  class="col-md-3 control-label"> 邮箱：</label>
+						<div class="col-md-8">
+							<input id="email" name="email" type="text" class="form-control"  placeholder="请输入邮箱"><span id="email_span"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">性别：</label>
+						<div class="col-md-8">
+							<label class="radio-inline">
+								<input id="gender-man" type="radio" name="gender" value="1" checked>男
+							</label>
+							<label class="radio-inline">
+								<input id="gender-women" type="radio" name="gender" value="0">女
+							</label>
+						</div>
+					</div>
+					<!--提交按钮-->
+					<div class="form-group">
+						<label class="col-md-3 control-label"></label>
+						<div class="col-md-8">
+							<input id="form-btn" class="btn btn-primary" type="button" value="立即注册" />
+							<span class="pull-right"><small>已经有账号？</small><a href="login.html">登录</a></span>
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+		<!--页脚开始-->
+		<footer class="footer">
+			<!-- 品质保障，私人定制等-->
+			<div class="text-center rights container">
+				<div class="col-md-offset-2 col-md-2">
+					<span class="fa fa-thumbs-o-up"></span>
+					<p>品质保障</p>
+				</div>
+				<div class="col-md-2">
+					<span class="fa fa-address-card-o"></span>
+					<p>私人订制</p>
+				</div>
+				<div class="col-md-2">
+					<span class="fa fa-graduation-cap"></span>
+					<p>学生特供</p>
+				</div>
+				<div class="col-md-2">
+					<span class="fa fa-bitcoin"></span>
+					<p>专属特权</p>
+				</div>
+			</div>
+			<!--联系我们、下载客户端等-->
+			<div class="container beforeBottom">
+				<div class="col-md-offset-1 col-md-3">
+					<div><img src="../images/index/stumalllogo.png" alt="" class="footLogo" /></div>
+					<div><img src="../images/index/footerFont.png" alt="" /></div>
+				</div>
+				<div class="col-md-4 callus text-center">
+					<div class="col-md-4">
+						<ul>
+							<li><a href="#"><p>买家帮助</p></a></li>
+							<li><a href="#">新手指南</a></li>
+							<li><a href="#">服务保障</a></li>
+							<li><a href="#">常见问题</a></li>
+						</ul>
+					</div>
+					<div class="col-md-4">
+						<ul>
+							<li><a href="#"><p>商家帮助</p></a></li>
+							<li><a href="#">商家入驻</a></li>
+							<li><a href="#">商家后台</a></li>
+						</ul>
+					</div>
+					<div class="col-md-4">
+						<ul>
+							<li><a href="#"><p>关于我们</p></a></li>
+							<li><a href="#">关于达内</a></li>
+							<li><a href="#">联系我们</a></li>
+							<li>
+								<span class="fa fa-wechat"></span>
+								<span class="fa fa-weibo"></span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="col-md-5">
+						<p>学子商城客户端</p>
+						<img src="../images/index/ios.png" class="lf">
+						<img src="../images/index/android.png" alt="" class="lf" />
+					</div>
+					<div class="col-md-6">
+						<img src="../images/index/erweima.png">
+					</div>
+				</div>
+			</div>
+			<!-- 页面底部-备案号 #footer -->
+			<div class="col-md-12 text-center bottom">
+				Copyright © 2018 Tedu.cn All Rights Reserved 京ICP备08000853号-56 <a target="_blank" href="http://www.tedu.cn/">达内时代科技集团有限公司</a> 版权所有
+			</div>
+		</footer>
+		<!--页脚结束-->
+		<script type="text/javascript">
+			$(document).ready(function () {
+				// 消除span中的内容
+				$("#username_span").html("");
+				$("#password_span").html("");
+				$("#confirm_span").html("");
+				$("#phone_span").html("");
+				$("#email_span").html("");
+
+				// 用户名和密码的正则校验要求
+				let pattern = /^[0-9a-zA-Z_$]{3,10}$/;
+
+				/* 1.1 用户名的输入框失去焦点时：对用户名进行正则校验 */
+				$("#username").blur(function () {
+					// 获取用户名，并校验
+					let username = $("#username").val();
+					let flag = pattern.test(username);
+					alert(username+","+flag);
+					if (!flag){
+						$("#username_span").html("用户名格式错误，用户名可以是由3-10位的数字、字母、下划线，$符号组成的！").css("color","red");
+						return;
+					}
+				});
+				/* 1.2 用户名输入框获得焦点时：span内容设置为空 */
+				$("#username").focus(function () {
+					$("#username_span").html("");
+				});
+
+				/* 2.1 密码的输入框失去焦点时：对密码进行正则校验 */
+				$("#password").blur(function () {
+					// 获取密码，并校验
+					let password = $("#password").val();
+					if (!pattern.test(password)){
+						$("#password_span").html("密码格式错误，密码可以是由3-10位的数字、字母、下划线，$符号组成的！").css("color","red");
+						return;
+					}
+				});
+				/* 2.2 密码输入框获得焦点时：span内容设置为空 */
+				$("#password").focus(function () {
+					$("#password_span").empty();
+				});
+
+				/* 3.1 密码确认的输入框失去焦点时：对密码进行正则校验 */
+				$("#confirmPwd").blur(function () {
+					// 获取密码
+					let password = $("#password").val();
+					// 获取密码确认框的值，并校验
+					let confirmPwd = $("#confirmPwd").val();
+					let flag = password == confirmPwd;
+					alert(confirmPwd+","+flag);
+					if(!flag){
+						$("#confirmPwd_span").html("两次输入的密码不一致！").css("color","red");
+						return;
+					}
+				});
+				/* 3.2 确认密码输入框获得焦点时：span内容设置为空 */
+				$("#confirmPwd").focus(function () {
+					$("#confirmPwd_span").empty();
+				});
+				/* 4.1 电话的输入框失去焦点时：对密码进行正则校验 */
+				$("#phone").blur(function () {
+					// 获取电话号码，并校验
+					let phone = $("#phone").val();
+					// 正则电话号码验证
+					let phone_pattern = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
+					let flag = phone_pattern.test(phone);
+					alert(phone+","+flag);
+					if(!flag){
+						$("#phone_span").html("输入的电话号码格式或者长度不正确！").css("color","red");
+						return;
+					}
+				});
+				/*
+                    4.2 电话输入框获得焦点时：span内容设置为空
+                 */
+				$("#phone").focus(function () {
+					$("#phone_span").empty();
+				});
+				/* 5.1 邮箱的输入框失去焦点时：对密码进行正则校验  */
+				$("#phone").blur(function () {
+					// 获取邮箱，并校验
+					let  email = $("#email").val();
+					let email_pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+					let flag = email_pattern.test(email);
+					alert(email+","+flag);
+					if(!flag){
+						$("#email_span").html("输入的邮箱格式不正确！").css("color","red");
+						return;
+					}
+				});
+				/* 5.2 邮箱输入框获得焦点时：span内容设置为空*/
+				$("#email").focus(function () {
+					$("#email_span").empty();
+				});
+
+				// 展示的基础上如果做了修改，点击了修改按钮
+				$("#form-btn").click(function () {
+					console.log("点击触发！");
+					// 消除span中的内容
+					$("#username_span").html("");
+					$("#password_span").html("");
+					$("#confirm_span").html("");
+					$("#phone_span").html("");
+					$("#email_span").html("");
+					$.ajax({
+						"url":"/user/register",
+						"data":$("#form-data").serialize(),
+						"type":"post",
+						"dataType":"json",
+						success:function (json) {
+							console.log(json.message);
+							if (json.state == 2000){
+								alert(json.message);
+								window.location.href="/web/login.html";
+							}else {
+								alert(json.message);
+							}
+						},
+						error:function (json) {
+							alert("注册失败！"+json.message);
+						}
+					});
+				});
+			});
+
+		</script>
+	</body>
+</html>

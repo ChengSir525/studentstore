@@ -1,0 +1,41 @@
+/*2021.04.12为了调节自行添加的分页功能，对齐左边文字和右边选项框，做如下的css样式*/
+#box-tools{
+    width: 300px;
+    height: 36px;
+    margin: 18px auto;
+
+    line-height: 36px; /*设置line-height与父级元素的height相等*/
+    text-align: center; /*设置文本水平居中*/
+    overflow: hidden; /*防止内容超出容器或者产生自动换行*/
+
+}
+
+ /*图标加大 颜色*/
+ .rights .fa {
+ 	font-size: 30px;
+ 	color: #667799;
+ }
+ /*图片小间距*/
+ img {
+ 	margin: 1px;
+ }
+ /*超链接样式*/
+ .callus a {
+ 	font-size: 12px;
+ 	text-decoration: none;
+ 	color: #666666;
+ }
+ /*底部填充高*/
+ .bottom {
+ 	margin: 10px;
+ }
+ /*权益整行的颜色和填充*/
+ .rights {
+ 	width: 100%;
+ 	padding: 50px;
+ 	background-color: #F2F2F2;
+ }
+ /*联系我们那一整行的填充*/
+ .beforeBottom {
+ 	padding-top: 30px;
+ }
