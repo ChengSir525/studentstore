@@ -129,6 +129,7 @@
 						<option value=10>10</option>
 					</select> 条 &nbsp;
 				</ul>
+				<ul>每页显示<input type="text" id="user-changPageSize"/></ul>
 				<ul class="pagination">
 					<li>
 						<a aria-label="Previous">首页</a>
@@ -235,6 +236,62 @@
 		</footer>
 		<!--页脚结束-->
 	<script type="text/javascript">
+		// 取消收藏
+		function deleteFavorite(id){
+			console.log(id);
+			$.ajax({
+				"url":"/favorites/deleteFavorites",
+				"data":"pid="+id,
+				"type":"post",
+				"dataType":"json",
+				success:function (json) {
+					let data = json.message;
+					console.log(data);
+					alert("已取消收藏！");
+					// 取消结束了进行页面整体刷新【不建议这么刷新】
+					// window.location.reload();
+					$.ajax({
+						"url":"/favorites/showFavorites",
+						"data":"pageNum=1&pageSize=4",
+						"type":"post",
+						"dataType":"json",
+						success:function (json) {
+							//先获取pageInfo对象
+							let data = json.data;
+							console.log(data);
+							// 再从pageInfo对象中获取商品的list集合
+							let list = json.data.list;
+							console.log(list)
+							$("#favorites-list").empty();
+							for (let i = 0; i <list.length ; i++) {
+								let html ='<div class=\"col-md-3\">\n' +
+										'<div class=\"goods-panel\">\n' +
+										'<div class=\"move-img img-search\">\n' +
+										'<img src=\"..#{image}collect.png\" class=\"img-responsive\" />\n' +
+										'</div>\n'+
+										'<p>¥#{price}</p>\n' +
+										'<p class=\"text-row-3\"><a href=\"product.html\"><small>#{title}</small></a></p>\n' +
+										'<span>\n'+
+										'<a href="javascript:void(0)" class="btn btn-default btn-xs add-fav" onclick="deleteFavorite(#{id})" ><span class="fa fa-heart"></span>取消收藏</a> \n'+
+										'<a href=\"cart.html\" class=\"btn btn-default btn-xs add-cart\"><span class=\"fa fa-cart-arrow-down\"></span>加入购物车</a>\n' +
+										'</span>\n'+
+										'</div>\n' +
+										'</div>';
+								html = html.replace("#{id}", list[i].id)
+								html = html.replace("#{image}",list[i].image);
+								html = html.replace("#{title}",list[i].title);
+								html = html.replace("#{price}",list[i].price);
+								$("#favorites-list").append(html);
+							}
+						}
+					});
+				},
+				error:function (json) {
+					let data = json.message;
+					alert(data);
+				}
+			});
+		}
 		$(document).ready(function () {
 			$.ajax({
 				"url":"/favorites/showFavorites",
@@ -251,27 +308,28 @@
 					$("#favorites-list").empty();
 					for (let i = 0; i <list.length ; i++) {
 						let html ='<div class=\"col-md-3\">\n' +
-								"<div class=\"goods-panel\">\n" +
-								"<div class=\"move-img img-search\">\n" +
-								"<img src=\"..#{image}collect.png\" class=\"img-responsive\" />\n" +
-								"</div>\n" +
-								"<p>¥#{price}</p>\n" +
-								"<p class=\"text-row-3\"><a href=\"product.html\"><small>#{title}</small></a></p>\n" +
-								"<span>\n" +
-								"<a href=\"javascript:void(0)\" class=\"btn btn-default btn-xs add-fav\"><span class=\"fa fa-heart\"></span>取消收藏</a>\n" +
-								"<a href=\"cart.html\" class=\"btn btn-default btn-xs add-cart\"><span class=\"fa fa-cart-arrow-down\"></span>加入购物车</a>\n" +
-								"</span>\n" +
-								"</div>\n" +
+								'<div class=\"goods-panel\">\n' +
+								'<div class=\"move-img img-search\">\n' +
+								'<img src=\"..#{image}collect.png\" class=\"img-responsive\" />\n' +
+								'</div>\n'+
+								'<p>¥#{price}</p>\n' +
+								'<p class=\"text-row-3\"><a href=\"product.html\"><small>#{title}</small></a></p>\n' +
+								'<span>\n'+
+								'<a href="javascript:void(0)" class="btn btn-default btn-xs add-fav" onclick="deleteFavorite(#{id})" ><span class="fa fa-heart"></span>取消收藏</a> \n'+
+								'<a href=\"cart.html\" class=\"btn btn-default btn-xs add-cart\"><span class=\"fa fa-cart-arrow-down\"></span>加入购物车</a>\n' +
+								'</span>\n'+
+								'</div>\n' +
 								'</div>';
+						html = html.replace("#{id}", list[i].id)
 						html = html.replace("#{image}",list[i].image);
 						html = html.replace("#{title}",list[i].title);
 						html = html.replace("#{price}",list[i].price);
 						$("#favorites-list").append(html);
 					}
-
 				}
 			});
-			// 当下拉选被选中时，异步请求发送，使用change【blur和click是有不同效果的】
+
+			// 当下拉选被选中时，异步请求发送，使用change方法【blur方法和click方法是有不同效果的】
 			$("#changPageSize").change(function () {
 				let pageSize = $("#changPageSize").val();
 				$.ajax({
@@ -296,11 +354,12 @@
 									"<p>¥#{price}</p>\n" +
 									"<p class=\"text-row-3\"><a href=\"product.html\"><small>#{title}</small></a></p>\n" +
 									"<span>\n" +
-									"<a href=\"javascript:void(0)\" class=\"btn btn-default btn-xs add-fav\"><span class=\"fa fa-heart\"></span>取消收藏</a>\n" +
+									"<a href=\"javascript:void(0)\" class=\"btn btn-default btn-xs add-fav\" onclick=\"deleteFavorite(#{id})\" ><span class=\"fa fa-heart\"></span>取消收藏</a>\n" +
 									"<a href=\"cart.html\" class=\"btn btn-default btn-xs add-cart\"><span class=\"fa fa-cart-arrow-down\"></span>加入购物车</a>\n" +
 									"</span>\n" +
 									"</div>\n" +
 									'</div>';
+							html = html.replace("#{id}", list[i].id);
 							html = html.replace("#{image}",list[i].image);
 							html = html.replace("#{title}",list[i].title);
 							html = html.replace("#{price}",list[i].price);
@@ -310,6 +369,50 @@
 					}
 				});
 			});
+
+			// 当输入框被选中时，异步请求发送，使用change方法【blur方法和click方法是有不同效果的】
+			$("#user-changPageSize").change(function () {
+				let pageSize = $("#user-changPageSize").val();
+				$.ajax({
+					"url":"/favorites/showFavorites",
+					"data":"pageNum=1&pageSize="+pageSize,
+					"type":"post",
+					"dataType":"json",
+					success:function (json) {
+						//先获取pageInfo对象
+						let data = json.data;
+						console.log(data);
+						// 再从pageInfo对象中获取商品的list集合
+						let list = json.data.list;
+						console.log(list)
+						$("#favorites-list").empty();
+						for (let i = 0; i <list.length ; i++) {
+							let html ='<div class=\"col-md-3\">\n' +
+									"<div class=\"goods-panel\">\n" +
+									"<div class=\"move-img img-search\">\n" +
+									"<img src=\"..#{image}collect.png\" class=\"img-responsive\" />\n" +
+									"</div>\n" +
+									"<p>¥#{price}</p>\n" +
+									"<p class=\"text-row-3\"><a href=\"product.html\"><small>#{title}</small></a></p>\n" +
+									"<span>\n" +
+									"<a href=\"javascript:void(0)\" class=\"btn btn-default btn-xs add-fav\" onclick=\"deleteFavorite(#{id})\" ><span class=\"fa fa-heart\"></span>取消收藏</a>\n" +
+
+									"<a href=\"cart.html\" class=\"btn btn-default btn-xs add-cart\"><span class=\"fa fa-cart-arrow-down\"></span>加入购物车</a>\n" +
+									"</span>\n" +
+									"</div>\n" +
+									'</div>';
+							html = html.replace("#{id}", list[i].id);
+							html = html.replace("#{image}",list[i].image);
+							html = html.replace("#{title}",list[i].title);
+							html = html.replace("#{price}",list[i].price);
+							$("#favorites-list").append(html);
+						}
+
+					}
+				});
+			});
+
+
 
 		});
 

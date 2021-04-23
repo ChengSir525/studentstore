@@ -16,9 +16,9 @@ public interface FavoritesService {
      * @param uid 用户id
      * @param pid 商品id
      * @param username 用户名称
-     * @return 返回受影响的行数
+     * @return 返回收藏相关的信息
      */
-    Integer addFavorites(Integer uid, Integer pid, String username);
+    String addFavorites(Integer uid, Integer pid, String username);
 
     /**
      * 从收藏夹中删除一件商品

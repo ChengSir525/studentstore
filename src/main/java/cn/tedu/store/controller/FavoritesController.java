@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @Version: 2021年04月12日 星期一  18:47:26
  * @Author: 程Sir
- * @Description: 该类标识 处理购物车信息的控制层类
+ * @Description: 该类标识 处理商品收藏信息的控制层类
  */
 @RestController
 @RequestMapping("/favorites")
@@ -29,8 +29,8 @@ public class FavoritesController extends BaseResult {
     public JsonResult<Product> addFavorites(Integer pid, HttpSession session){
         Integer uid = getUidFromSession(session);
         String username = getUsernameFromSession(session);
-        Integer row = favoritesService.addFavorites(uid, pid, username);
-        return new JsonResult<>(SUCCESS,MESSAGE);
+        String message = favoritesService.addFavorites(uid, pid, username);
+        return new JsonResult<>(SUCCESS,message);
     }
 
     @RequestMapping("/deleteFavorites")

@@ -30,7 +30,7 @@ public class FavoritesServiceImp implements FavoritesService {
     private ProductMapper productMapper;
 
     @Override
-    public Integer addFavorites(Integer uid, Integer pid, String username) {
+    public String addFavorites(Integer uid, Integer pid, String username) {
         Favorites favorites = new Favorites();
         favorites.setUid(uid);
         favorites.setPid(pid);
@@ -39,11 +39,36 @@ public class FavoritesServiceImp implements FavoritesService {
         favorites.setCreated_time(date);
         favorites.setModified_user(username);
         favorites.setModified_time(date);
-        Integer row = favoritesMapper.insert(favorites);
-        if(row != 1){
-            throw new AddFavoritesException("操作失败！未成功将物品添加到收藏夹。");
+        // 因为已经收藏的商品不需要重复收藏，那么在进行收藏数据表插入数据之前，就需要进行一次判断，即该pid商品是否已收藏
+        if( findFavoriteByPid(uid,pid) == null){
+            // 如果在收藏夹中没有找到，则执行收藏动作
+            Integer row = favoritesMapper.insert(favorites);
+            if (row !=1){
+                throw new AddFavoritesException("收藏失败，收藏过程中，遇到未知错误，稍后重试！" );
+            }
+            return "该物品收藏成功！" ;
         }
-        return row;
+        return "该物品已经添加到收藏夹了！" ;
+    }
+
+    /**
+     *  通过用户uid和商品pid，查询用户收藏夹是否已收藏该商品
+     * @param uid 用户id
+     * @param pid 商品id
+     * @return 返回查询到收藏信息对象，若不存在返回null
+     */
+    private Favorites findFavoriteByPid(Integer uid, Integer pid) {
+//        Example example = new Example(Favorites.class);
+//        Example.Criteria criteria = example.createCriteria();
+//        criteria.andEqualTo("uid",uid);
+//        criteria.andEqualTo("pid",pid);
+        Favorites favorites = new Favorites();
+        favorites.setPid(pid);
+        favorites.setUid(uid);
+
+        favorites = favoritesMapper.selectOne(favorites);
+        System.out.println("查询到收藏夹："+favorites);
+        return favorites;
     }
 
     @Override

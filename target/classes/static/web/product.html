@@ -149,7 +149,7 @@
 						</div>
 						<div class="col-md-12 form-space">
 							<button type="button" class="btn btn-default go-cart"><span class="fa fa-cart-plus"></span> 加入购物车</button>
-							<button type="button" class="btn btn-default"><span class="fa fa-heart-o"></span> 加入收藏</button>
+							<button type="button" class="btn btn-default" id="addFavorites"><span class="fa fa-heart-o"></span> 加入收藏</button>
 						</div>
 					</form>
 				</div>
@@ -298,17 +298,33 @@
 		<!--页脚结束-->
 		<script src="../js/jquery-getUrlParam.js"></script>
 	<script type="text/javascript">
-		let id = $.getUrlParam("id");
-		console.log(id);
-		$(document).ready(function () {
-			showProduct(id);
+		let pid = $.getUrlParam("id");
+		console.log(pid);
+		// 添加到收藏夹
+		$("#addFavorites").click(function () {
+			$.ajax({
+				"url":"/favorites/addFavorites/",
+				"data":"pid="+pid,
+				"type":"post",
+				"dataType":"json",
+				success:function (json) {
+					console.log(json.message);
+					alert(json.message);
+				}
+			});
 		});
 
-		function  showProduct(id) {
+
+		$(document).ready(function () {
+			// 展示商品详情
+			showProduct(pid);
+		});
+
+		function  showProduct(pid) {
 			console.log("进来了！")
 			$.ajax({
 				"url":"/product/findProduct",
-				"data":"id="+id,
+				"data":"id="+pid,
 				"type":"get",
 				"dataType":"json",
 				success:function (json) {
@@ -328,6 +344,7 @@
 				}
 			});
 		}
+
 
 	</script>
 	</body>
