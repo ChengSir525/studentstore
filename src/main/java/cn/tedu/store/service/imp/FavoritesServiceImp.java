@@ -48,7 +48,7 @@ public class FavoritesServiceImp implements FavoritesService {
             }
             return "该物品收藏成功！" ;
         }
-        return "该物品已经添加到收藏夹了！" ;
+        return "该物品已经在收藏夹了！" ;
     }
 
     /**
@@ -81,7 +81,7 @@ public class FavoritesServiceImp implements FavoritesService {
         Favorites favorites = new Favorites();
         favorites.setUid(uid);
         favorites.setPid(pid);
-        System.out.println("删除的是："+favorites);
+        System.out.println("删除收藏夹中的："+favorites);
         Integer row = favoritesMapper.delete(favorites);
         if(row != 1){
             throw new DeleteFavoritesException("操作失败！未成功将物品从收藏夹删除。");
@@ -105,7 +105,7 @@ public class FavoritesServiceImp implements FavoritesService {
             Product product = productMapper.selectByPrimaryKey(pid);
             // 查询到的商品信息添加到集合中
             products.add(product);
-            System.out.println("购物车中的是："+product);
+            System.out.println("收藏夹中的是："+product);
         }
         return products;
     }

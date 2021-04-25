@@ -26,7 +26,7 @@ public class FavoritesController extends BaseResult {
     private FavoritesService favoritesService;
 
     @RequestMapping("/addFavorites")
-    public JsonResult<Product> addFavorites(Integer pid, HttpSession session){
+    public JsonResult<String> addFavorites(Integer pid, HttpSession session){
         Integer uid = getUidFromSession(session);
         String username = getUsernameFromSession(session);
         String message = favoritesService.addFavorites(uid, pid, username);

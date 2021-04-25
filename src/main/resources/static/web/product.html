@@ -148,7 +148,8 @@
 							<input class="btn btn-primary btn-lg btn-block" type="button" value="立即购买">
 						</div>
 						<div class="col-md-12 form-space">
-							<button type="button" class="btn btn-default go-cart"><span class="fa fa-cart-plus"></span> 加入购物车</button>
+							<!-- 删除 class属性上的 go-cart，这样点击加入购物车就不会跳转页面了！-->
+							<button type="button" class="btn btn-default " id="addCarts"><span class="fa fa-cart-plus"></span> 加入购物车</button>
 							<button type="button" class="btn btn-default" id="addFavorites"><span class="fa fa-heart-o"></span> 加入收藏</button>
 						</div>
 					</form>
@@ -313,33 +314,46 @@
 				}
 			});
 		});
+		// 添加到购物车
+		$("#addCarts").click(function () {
+			$.ajax({
+				"url":"/cart/addCart/",
+				"data":"pid="+pid,
+				"type":"post",
+				"dataType":"json",
+				success:function (json) {
+					console.log(json.message);
+					alert(json.message);
+				}
 
+			});
+		});
 
 		$(document).ready(function () {
 			// 展示商品详情
 			showProduct(pid);
 		});
-
+		// 展示所有的商品数据信息
 		function  showProduct(pid) {
-			console.log("进来了！")
+			console.log("进来了！pid="+pid)
 			$.ajax({
 				"url":"/product/findProduct",
 				"data":"id="+pid,
 				"type":"get",
 				"dataType":"json",
 				success:function (json) {
+					let product = json.data;
+					console.log(product);
+					for (let i = 1; i <= 5; i++) {
+						//product-image-1-big
+						$("#product-image-"+ i +"-big").attr("src", ".."+product.image+"/"+i+"_big.png");
+						$("#product-image-"+ i +"-small").attr("src", ".."+product.image+"/"+i+".jpg");
+					}
+					$("#title").html(product.title);
+					$("#title").attr("title", product.title);// 目的是让鼠标悬停在该文字之上，也显示该文字
+					$("#sellPoint").html(product.sellPoint);
+					$("#price").html(product.price);
 
-						let product = json.data;
-						console.log(product);
-						for (let i = 1; i <= 5; i++) {
-							//product-image-1-big
-							$("#product-image-"+ i +"-big").attr("src", ".."+product.image+"/"+i+"_big.png");
-							$("#product-image-"+ i +"-small").attr("src", ".."+product.image+"/"+i+".jpg");
-						}
-						$("#title").html(product.title);
-						$("#title").attr("title", product.title);// 目的是让鼠标悬停在该文字之上，也显示该文字
-						$("#sellPoint").html(product.sellPoint);
-						$("#price").html(product.price);
 
 				}
 			});

@@ -37,9 +37,9 @@ public class LoginInterceptorConfig implements WebMvcConfigurer {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns(releaseList);
+        registry.addInterceptor(new LoginInterceptor()) // 添加定义好的拦截器
+                .addPathPatterns("/**") // 拦截所所有
+                .excludePathPatterns(releaseList); // 添加白名单（放行资源存在list集合中）
     }
 
 

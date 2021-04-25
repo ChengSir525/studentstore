@@ -139,7 +139,6 @@
 					<li>
 						<a>页码</a>
 					</li>
-
 					<li><a href="#">下一页</a></li>
 					<li>
 						<a href="#" aria-label="Next">尾页</a>
@@ -245,46 +244,10 @@
 				"type":"post",
 				"dataType":"json",
 				success:function (json) {
-					let data = json.message;
-					console.log(data);
+					console.log(json.message);
 					alert("已取消收藏！");
-					// 取消结束了进行页面整体刷新【不建议这么刷新】
-					// window.location.reload();
-					$.ajax({
-						"url":"/favorites/showFavorites",
-						"data":"pageNum=1&pageSize=4",
-						"type":"post",
-						"dataType":"json",
-						success:function (json) {
-							//先获取pageInfo对象
-							let data = json.data;
-							console.log(data);
-							// 再从pageInfo对象中获取商品的list集合
-							let list = json.data.list;
-							console.log(list)
-							$("#favorites-list").empty();
-							for (let i = 0; i <list.length ; i++) {
-								let html ='<div class=\"col-md-3\">\n' +
-										'<div class=\"goods-panel\">\n' +
-										'<div class=\"move-img img-search\">\n' +
-										'<img src=\"..#{image}collect.png\" class=\"img-responsive\" />\n' +
-										'</div>\n'+
-										'<p>¥#{price}</p>\n' +
-										'<p class=\"text-row-3\"><a href=\"product.html\"><small>#{title}</small></a></p>\n' +
-										'<span>\n'+
-										'<a href="javascript:void(0)" class="btn btn-default btn-xs add-fav" onclick="deleteFavorite(#{id})" ><span class="fa fa-heart"></span>取消收藏</a> \n'+
-										'<a href=\"cart.html\" class=\"btn btn-default btn-xs add-cart\"><span class=\"fa fa-cart-arrow-down\"></span>加入购物车</a>\n' +
-										'</span>\n'+
-										'</div>\n' +
-										'</div>';
-								html = html.replace("#{id}", list[i].id)
-								html = html.replace("#{image}",list[i].image);
-								html = html.replace("#{title}",list[i].title);
-								html = html.replace("#{price}",list[i].price);
-								$("#favorites-list").append(html);
-							}
-						}
-					});
+					// 取消收藏成功之后，需要再查下一次收藏夹数据
+					showFavorites();
 				},
 				error:function (json) {
 					let data = json.message;
@@ -292,43 +255,84 @@
 				}
 			});
 		}
-		$(document).ready(function () {
+
+		// 添加到购物车
+		function addCart(id){
+			console.log(id);
+			$.ajax({
+				"url":"/cart/addCart",
+				"data":"pid="+id,
+				"type":"post",
+				"dataType":"json",
+				success:function(json){
+					console.log(json.message);
+					alert("购物车添加成功！");
+					$.ajax({
+						"url":"/favorites/showFavorites",
+						"data":"pageNum=1&pageSize=4",
+						"type":"post",
+						"dataType":"json",
+						success:function (json) {
+							// 调用数据展示的方法
+							FavoriteData(json);
+						}
+					});
+				},
+				error:function (json){
+					console.log(json.message);
+				}
+			});
+
+		}
+
+		// 查询所有收藏夹信息数据
+		function showFavorites(){
 			$.ajax({
 				"url":"/favorites/showFavorites",
 				"data":"pageNum=1&pageSize=4",
 				"type":"post",
 				"dataType":"json",
 				success:function (json) {
-					//先获取pageInfo对象
-					let data = json.data;
-					console.log(data);
-					// 再从pageInfo对象中获取商品的list集合
-					let list = json.data.list;
-					console.log(list)
-					$("#favorites-list").empty();
-					for (let i = 0; i <list.length ; i++) {
-						let html ='<div class=\"col-md-3\">\n' +
-								'<div class=\"goods-panel\">\n' +
-								'<div class=\"move-img img-search\">\n' +
-								'<img src=\"..#{image}collect.png\" class=\"img-responsive\" />\n' +
-								'</div>\n'+
-								'<p>¥#{price}</p>\n' +
-								'<p class=\"text-row-3\"><a href=\"product.html\"><small>#{title}</small></a></p>\n' +
-								'<span>\n'+
-								'<a href="javascript:void(0)" class="btn btn-default btn-xs add-fav" onclick="deleteFavorite(#{id})" ><span class="fa fa-heart"></span>取消收藏</a> \n'+
-								'<a href=\"cart.html\" class=\"btn btn-default btn-xs add-cart\"><span class=\"fa fa-cart-arrow-down\"></span>加入购物车</a>\n' +
-								'</span>\n'+
-								'</div>\n' +
-								'</div>';
-						html = html.replace("#{id}", list[i].id)
-						html = html.replace("#{image}",list[i].image);
-						html = html.replace("#{title}",list[i].title);
-						html = html.replace("#{price}",list[i].price);
-						$("#favorites-list").append(html);
-					}
+					// 调用数据展示的方法
+					FavoriteData(json);
 				}
 			});
+		}
+		// 封装： 当异步请求发送-响应成功（查询、删除、加入购物车），数据展示方法
+		function FavoriteData(json) {
+			//先获取pageInfo对象
+			let data = json.data;
+			console.log(data);
+			// 再从pageInfo对象中获取商品的list集合
+			let list = json.data.list;
+			console.log(list)
+			$("#favorites-list").empty();
+			for (let i = 0; i <list.length ; i++) {
+				let id = list[i].id;
+				let html ='<div class=\"col-md-3\">\n' +
+						"<div class=\"goods-panel\">\n" +
+						"<div class=\"move-img img-search\">\n" +
+						"<img src=\"..#{image}collect.png\" class=\"img-responsive\" />\n" +
+						"</div>\n" +
+						"<p>¥#{price}</p>\n" +
+						"<p class=\"text-row-3\"><a href=\"product.html?id=#{id1}\"><small>#{title}</small></a></p>\n" +
+						"<span>\n" +
+						'<a href=\"javascript:void(0)\" class=\"btn btn-default btn-xs add-fav\" onclick="deleteFavorite('+id+')" ><span class=\"fa fa-heart\"></span>取消收藏</a>\n' +
 
+						'<a href=\"javascript:void(0)\" class=\"btn btn-default btn-xs add-cart\" onclick="addCart('+id+')"><span class=\"fa fa-cart-arrow-down\"></span>加入购物车</a>\n' +
+						"</span>\n" +
+						"</div>\n" +
+						'</div>';
+				html = html.replace("#{id1}", id);
+				html = html.replace("#{image}",list[i].image);
+				html = html.replace("#{title}",list[i].title);
+				html = html.replace("#{price}",list[i].price);
+				$("#favorites-list").append(html);
+			}
+		}
+		$(document).ready(function () {
+			// 查询所有的收藏夹数据信息
+			showFavorites();
 			// 当下拉选被选中时，异步请求发送，使用change方法【blur方法和click方法是有不同效果的】
 			$("#changPageSize").change(function () {
 				let pageSize = $("#changPageSize").val();
@@ -338,34 +342,7 @@
 					"type":"post",
 					"dataType":"json",
 					success:function (json) {
-						//先获取pageInfo对象
-						let data = json.data;
-						console.log(data);
-						// 再从pageInfo对象中获取商品的list集合
-						let list = json.data.list;
-						console.log(list)
-						$("#favorites-list").empty();
-						for (let i = 0; i <list.length ; i++) {
-							let html ='<div class=\"col-md-3\">\n' +
-									"<div class=\"goods-panel\">\n" +
-									"<div class=\"move-img img-search\">\n" +
-									"<img src=\"..#{image}collect.png\" class=\"img-responsive\" />\n" +
-									"</div>\n" +
-									"<p>¥#{price}</p>\n" +
-									"<p class=\"text-row-3\"><a href=\"product.html\"><small>#{title}</small></a></p>\n" +
-									"<span>\n" +
-									"<a href=\"javascript:void(0)\" class=\"btn btn-default btn-xs add-fav\" onclick=\"deleteFavorite(#{id})\" ><span class=\"fa fa-heart\"></span>取消收藏</a>\n" +
-									"<a href=\"cart.html\" class=\"btn btn-default btn-xs add-cart\"><span class=\"fa fa-cart-arrow-down\"></span>加入购物车</a>\n" +
-									"</span>\n" +
-									"</div>\n" +
-									'</div>';
-							html = html.replace("#{id}", list[i].id);
-							html = html.replace("#{image}",list[i].image);
-							html = html.replace("#{title}",list[i].title);
-							html = html.replace("#{price}",list[i].price);
-							$("#favorites-list").append(html);
-						}
-
+						FavoriteData(json);
 					}
 				});
 			});
@@ -379,46 +356,11 @@
 					"type":"post",
 					"dataType":"json",
 					success:function (json) {
-						//先获取pageInfo对象
-						let data = json.data;
-						console.log(data);
-						// 再从pageInfo对象中获取商品的list集合
-						let list = json.data.list;
-						console.log(list)
-						$("#favorites-list").empty();
-						for (let i = 0; i <list.length ; i++) {
-							let html ='<div class=\"col-md-3\">\n' +
-									"<div class=\"goods-panel\">\n" +
-									"<div class=\"move-img img-search\">\n" +
-									"<img src=\"..#{image}collect.png\" class=\"img-responsive\" />\n" +
-									"</div>\n" +
-									"<p>¥#{price}</p>\n" +
-									"<p class=\"text-row-3\"><a href=\"product.html\"><small>#{title}</small></a></p>\n" +
-									"<span>\n" +
-									"<a href=\"javascript:void(0)\" class=\"btn btn-default btn-xs add-fav\" onclick=\"deleteFavorite(#{id})\" ><span class=\"fa fa-heart\"></span>取消收藏</a>\n" +
-
-									"<a href=\"cart.html\" class=\"btn btn-default btn-xs add-cart\"><span class=\"fa fa-cart-arrow-down\"></span>加入购物车</a>\n" +
-									"</span>\n" +
-									"</div>\n" +
-									'</div>';
-							html = html.replace("#{id}", list[i].id);
-							html = html.replace("#{image}",list[i].image);
-							html = html.replace("#{title}",list[i].title);
-							html = html.replace("#{price}",list[i].price);
-							$("#favorites-list").append(html);
-						}
-
+						FavoriteData(json);
 					}
 				});
 			});
-
-
-
 		});
-
-
-
-
 
 	</script>
 	</body>

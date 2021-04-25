@@ -37,9 +37,13 @@ public class GlobalExceptionHandler {
         }else if(e instanceof DistrictNotFoundException){
             jsonResult.setState(4001);// 省市区数据不存在异常
         }else if(e instanceof AddFavoritesException){
-            jsonResult.setState(5001);// 增加购物车数据异常
+            jsonResult.setState(5001);// 增加收藏夹数据异常
         }else if(e instanceof DeleteFavoritesException){
-            jsonResult.setState(5005);// 删除购物车数据异常
+            jsonResult.setState(5002);// 删除收藏夹数据异常
+        }else if(e instanceof AddCartException){
+            jsonResult.setState(6001);// 增加购物车数据异常
+        }else if(e instanceof DeleteCartException){
+            jsonResult.setState(6002);// 删除购物车数据异常
         }else{
             jsonResult.setState(9999);//系统发现未知错误
             jsonResult.setMessage("操作失败！系统出现未知异常，请联系系统管理员！");
